@@ -7,14 +7,13 @@ Requirements:
 Docker Compose
 
 Install & Getting Started:
-
 Clone this repository (or download zip with wget)
-
+ ```
 git clone https://github.com/crashf/punditstack.git
 cd pundit-stack
-
+ ```
 Default stack
 To go with default full stack, just run docker compose as described above:
-
+ ```
 docker compose  up -d
-
+ ```
