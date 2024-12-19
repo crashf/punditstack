@@ -18,5 +18,5 @@ cd pundit-stack
 To go with default full stack, just run docker compose as described above:
 ```
 docker compose  up -d
-```
+```.
 
