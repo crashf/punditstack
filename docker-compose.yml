@@ -98,3 +98,35 @@ services:
     volumes:
     - ./syslog-ng/syslog-ng.conf:/etc/syslog-ng/syslog-ng.conf:ro
 
+  telegraf:
+    image: telegraf
+    container_name: telegraf
+    restart: always
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro  # Mount the Telegraf configuration file
+      - /var/run/docker.sock:/var/run/docker.sock:ro  # Mount the Docker socket to collect Docker metrics
+    depends_on:
+      - influxdb
+    links:
+      - influxdb
+    ports:
+      - '8125:8125'  # Expose Telegraf's StatsD port
+    networks:
+      - pundit: null  # Connect the Telegraf container to the monitoring network
+  influxdb:
+    image: influxdb:1.8-alpine
+    container_name: influxdb
+    restart: always
+    environment:
+      - INFLUXDB_DB=influx
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=adminpundit
+    ports:
+      - '8086:8086'  # Expose InfluxDB on port 8086
+    volumes:
+      - influxdb_data:/var/lib/influxdb  # Mount the InfluxDB data directory
+    networks:
+      - pundit: null  # Connect the InfluxDB container to the monitoring network
+volumes:
+  influxdb_data:
+
