@@ -33,5 +33,17 @@ Windows - Prometheus
 #    metrics_path: /metrics
 #    static_configs:
 #    - targets: ['IP Address:9200']
+```
 
+SNMP (network or other)
+1. Configure SNMP on the device (google is your friend)
+2. Configure the device in prometheus/prometheus.yml (SNMP_EXPORTER) and uncomment if nessessary
+```
+####SNMP Exporter
+  - job_name: 'snmp_exporter'
+    static_configs:
+      - targets:
+        #- ipaddress  # SNMP device.
+        #- hostname # SNMP device.
+        #- tcp://192.168.1.3:1161  # SNMP device using TCP transport and custom port.
 ```
