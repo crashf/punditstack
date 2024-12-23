@@ -21,7 +21,7 @@
       }
     ]
   },
-  "description": "Mikrotik Loki Logs",
+  "description": "SNMP Loki Logs",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "gnetId": 17139,
@@ -38,7 +38,7 @@
         "pundit"
       ],
       "targetBlank": false,
-      "title": "MKTXP Exporter",
+      "title": "SNMP Exporter",
       "tooltip": "",
       "type": "dashboards",
       "url": ""
@@ -538,7 +538,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Mikrotik Loki Logs",
+  "title": "SNMP Loki Logs",
   "uid": "awslix6doiakp-mkt-loki",
   "version": 1,
   "weekStart": ""

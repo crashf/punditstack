@@ -21,7 +21,7 @@
       }
     ]
   },
-  "description": "Mikrotik MKTXP Exporter metrics",
+  "description": "SNMP Exporter metrics",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "gnetId": 13679,
@@ -38,7 +38,7 @@
         "loki"
       ],
       "targetBlank": false,
-      "title": "Mikrotik Loki Logs ",
+      "title": "SNMP Loki Logs ",
       "tooltip": "",
       "type": "dashboards",
       "url": ""
@@ -483,7 +483,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": true,
           "interval": "",
@@ -631,7 +631,7 @@
             "filter": "Network"
           },
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "Snmp Device"
           },
           "instant": false,
           "interval": "",
@@ -823,7 +823,7 @@
             "filter": "Network"
           },
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -1081,7 +1081,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": true,
           "interval": "",
@@ -1193,7 +1193,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": true,
           "interval": "",
@@ -1538,7 +1538,7 @@
             "filter": "Network"
           },
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -1569,7 +1569,7 @@
             "filter": "Network"
           },
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -1659,7 +1659,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": true,
           "interval": "",
@@ -1954,7 +1954,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": true,
           "interval": "",
@@ -2240,7 +2240,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": true,
           "interval": "",
@@ -2336,7 +2336,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": true,
           "interval": "",
@@ -2535,7 +2535,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": true,
           "interval": "",
@@ -2756,7 +2756,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "interval": "",
           "intervalFactor": 1,
@@ -3302,7 +3302,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -3334,7 +3334,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "interval": "",
           "intervalFactor": 1,
@@ -3770,7 +3770,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -3895,7 +3895,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -4020,7 +4020,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -4145,7 +4145,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -4283,7 +4283,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -5373,7 +5373,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -5405,7 +5405,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "interval": "",
               "intervalFactor": 1,
@@ -5525,7 +5525,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -5645,7 +5645,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -6094,7 +6094,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": true,
           "interval": "",
@@ -6211,7 +6211,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": true,
           "interval": "",
@@ -6334,7 +6334,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -6489,7 +6489,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -6521,7 +6521,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "interval": "",
           "intervalFactor": 1,
@@ -6667,7 +6667,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -6699,7 +6699,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -6837,7 +6837,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -6869,7 +6869,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -7007,7 +7007,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -7039,7 +7039,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -7177,7 +7177,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -7209,7 +7209,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -7359,7 +7359,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -7497,7 +7497,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -7635,7 +7635,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -7773,7 +7773,7 @@
               },
               "hide": false,
               "host": {
-                "filter": "MikroTik Router"
+                "filter": "SNMP Device"
               },
               "instant": false,
               "interval": "",
@@ -8153,7 +8153,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -8290,7 +8290,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -8447,7 +8447,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -8479,7 +8479,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "interval": "",
           "intervalFactor": 1,
@@ -8605,7 +8605,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": true,
           "interval": "",
@@ -8726,7 +8726,7 @@
           },
           "hide": false,
           "host": {
-            "filter": "MikroTik Router"
+            "filter": "SNMP Device"
           },
           "instant": false,
           "interval": "",
@@ -9021,7 +9021,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Mikrotik MKTXP Exporter",
+  "title": "SNMP Exporter",
   "uid": "abc4ae8a-f097-482d-ad73-5bfcedc92ae5",
   "version": 1,
   "weekStart": ""
