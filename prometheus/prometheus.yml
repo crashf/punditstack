@@ -47,7 +47,7 @@ scrape_configs:
 #    - targets: ['IP Address:9200']
 
 ####SNMP Exporter
-  - job_name: 'snmp_exporter'
+  - job_name: 'snmp'
     static_configs:
       - targets:
         #- ipaddress  # SNMP device.
@@ -63,4 +63,9 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: 127.0.0.1:9116  # The SNMP exporter's real hostname:port.
+        replacement: snmp_exporter:9116  # The SNMP exporter's real hostname:port.
+
+# Global exporter-level metrics
+  - job_name: 'snmp_exporter'
+    static_configs:
+      - targets: ['snmp_exporter:9116']      
