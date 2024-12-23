@@ -128,5 +128,17 @@ services:
     networks:
       pundit: null  # Connect the InfluxDB container to the monitoring network
 
+  snmp_exporter:
+    image: prom/snmp-exporter
+    container_name: snmp_exporter
+    restart: always
+    volumes:
+      - ./snmp_exporter/snmp_exporter.yml:/snmp.yml  # Mount the snmp_exporter configuration file
+    ports:
+      - '9116:9116'  # Expose Snmp_exporters port
+    networks:
+      pundit: null  # Connect the container to the monitoring network
+  
+
   
 
