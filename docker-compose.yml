@@ -1,10 +1,10 @@
-version: '3.2'
 networks:
   pundit: {}
 
 volumes:
   prometheus_storage: {}
   grafana_storage: {}
+  influxdb_data: {}
 
 services:
   grafana:
@@ -112,7 +112,7 @@ services:
     ports:
       - '8125:8125'  # Expose Telegraf's StatsD port
     networks:
-      - pundit: null  # Connect the Telegraf container to the monitoring network
+      pundit: null  # Connect the Telegraf container to the monitoring network
   influxdb:
     image: influxdb:1.8-alpine
     container_name: influxdb
@@ -126,7 +126,7 @@ services:
     volumes:
       - influxdb_data:/var/lib/influxdb  # Mount the InfluxDB data directory
     networks:
-      - pundit: null  # Connect the InfluxDB container to the monitoring network
-volumes:
-  influxdb_data:
+      pundit: null  # Connect the InfluxDB container to the monitoring network
+
+  
 
