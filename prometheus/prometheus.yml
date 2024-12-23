@@ -34,6 +34,14 @@ scrape_configs:
     static_configs:
     - targets: ['promtail:9080']
 
-  - job_name: 'pundit'
-    static_configs:
-      - targets: ['pundit:49090']
+
+#### Windows Devices
+#### Added windows devices with the following format
+#### Windows Exporter can be installed from Ninja or https://github.com/prometheus-community/windows_exporter/releases/download/v0.29.2/windows_exporter-0.29.2-arm64.exe
+#### msiexec /i <path-to-msi-file> --% ADDLOCAL=FirewallException
+
+#  - job_name: 'DeviceName'
+#    scrape_interval: 1m
+#    metrics_path: /metrics
+#    static_configs:
+#    - targets: ['IP Address:9200']
