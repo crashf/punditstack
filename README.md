@@ -47,3 +47,7 @@ SNMP (network or other)
         #- hostname # SNMP device.
         #- tcp://192.168.1.3:1161  # SNMP device using TCP transport and custom port.
 ```
+
+SYSLOG - Promtail
+1. Configure network devices to send syslog messages to docker VM IP:514 UDP
+
