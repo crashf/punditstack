@@ -18,7 +18,7 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 95,
+    "id": 3,
     "links": [],
     "panels": [
       {
@@ -285,11 +285,19 @@
             "text": "",
             "value": ""
           },
-          "datasource": "de67pi46chmgwc",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "definition": "query_result(sum by (instance)(ifInOctets{job=\"snmp\"}))",
           "includeAll": false,
           "name": "Device",
           "options": [],
-          "query": "query_result(sum by (instance)(ifInOctets{job=\"snmp\"}))",
+          "query": {
+            "qryType": 3,
+            "query": "query_result(sum by (instance)(ifInOctets{job=\"snmp\"}))",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
           "refresh": 1,
           "regex": ".*instance=\"(.*?)\".*",
           "sort": 1,
@@ -300,12 +308,20 @@
             "text": "All",
             "value": "$__all"
           },
-          "datasource": "de67pi46chmgwc",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "definition": "query_result(ifInOctets{job=\"snmp\",instance=\"$Device\"})",
           "hide": 2,
           "includeAll": true,
           "name": "Interface",
           "options": [],
-          "query": "query_result(ifInOctets{job=\"snmp\",instance=\"$Device\"})",
+          "query": {
+            "qryType": 3,
+            "query": "query_result(ifInOctets{job=\"snmp\",instance=\"$Device\"})",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
           "refresh": 1,
           "regex": ".*ifDescr=\"(.*?)\",.*",
           "sort": 1,
@@ -319,7 +335,7 @@
     },
     "timepicker": {},
     "timezone": "browser",
-    "title": "SNMPNetDevice Interface Throughput",
+    "title": "NetDevice Interface Throughput",
     "uid": "de74fk1uytfy8c",
     "version": 2,
     "weekStart": ""
