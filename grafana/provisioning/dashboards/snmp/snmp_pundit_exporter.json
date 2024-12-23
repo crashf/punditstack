@@ -156,7 +156,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_system_identity_info{routerboard_name=\"$node\"}  ",
+          "expr": "pundit_system_identity_info{hostname_name=\"$node\"}  ",
           "instant": true,
           "interval": "",
           "legendFormat": "{{name}}",
@@ -236,14 +236,14 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_system_uptime{routerboard_name=\"$node\"}",
+          "expr": "pundit_system_uptime{hostname_name=\"$node\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "{{board_name}}",
           "refId": "B"
         }
       ],
-      "title": "Routerboard HW",
+      "title": "hostname HW",
       "type": "stat"
     },
     {
@@ -351,7 +351,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_installed_packages_info{routerboard_name=\"$node\"}",
+          "expr": "pundit_installed_packages_info{hostname_name=\"$node\"}",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -370,8 +370,8 @@
               "__name__": true,
               "instance": true,
               "job": true,
-              "routerboard_address": true,
-              "routerboard_name": true,
+              "hostname_address": true,
+              "hostname_name": true,
               "version": true
             },
             "indexByName": {
@@ -383,8 +383,8 @@
               "instance": 2,
               "job": 3,
               "name": 4,
-              "routerboard_address": 7,
-              "routerboard_name": 8,
+              "hostname_address": 7,
+              "hostname_name": 8,
               "version": 9
             },
             "renameByName": {
@@ -475,7 +475,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "(1 - pundit_system_free_memory{routerboard_name=\"$node\"} / pundit_system_total_memory{routerboard_name=\"$node\"})*100",
+          "expr": "(1 - pundit_system_free_memory{hostname_name=\"$node\"} / pundit_system_total_memory{hostname_name=\"$node\"})*100",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -504,7 +504,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_system_cpu_load{routerboard_name=\"$node\"}",
+          "expr": "pundit_system_cpu_load{hostname_name=\"$node\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "CPU Load",
@@ -516,7 +516,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "(1 - pundit_system_free_hdd_space{routerboard_name=\"$node\"} / pundit_system_total_hdd_space{routerboard_name=\"$node\"})*100",
+          "expr": "(1 - pundit_system_free_hdd_space{hostname_name=\"$node\"} / pundit_system_total_hdd_space{hostname_name=\"$node\"})*100",
           "instant": true,
           "interval": "",
           "legendFormat": "HDD Utilization",
@@ -624,7 +624,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_system_cpu_load{routerboard_name=\"$node\"}",
+          "expr": "pundit_system_cpu_load{hostname_name=\"$node\"}",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -816,7 +816,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_system_cpu_frequency{routerboard_name=\"$node\"}*1000000",
+          "expr": "pundit_system_cpu_frequency{hostname_name=\"$node\"}*1000000",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -898,7 +898,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "pundit_system_cpu_frequency{routerboard_name=\"$node\"}*1000000",
+          "expr": "pundit_system_cpu_frequency{hostname_name=\"$node\"}*1000000",
           "instant": true,
           "interval": "",
           "legendFormat": "{{cpu}} ",
@@ -979,7 +979,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_system_routerboard_temperature{routerboard_name=\"$node\"}  ",
+          "expr": "pundit_system_hostname_temperature{hostname_name=\"$node\"}  ",
           "instant": true,
           "interval": "",
           "legendFormat": "__auto",
@@ -991,7 +991,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_system_cpu_temperature{routerboard_name=\"$node\"}  ",
+          "expr": "pundit_system_cpu_temperature{hostname_name=\"$node\"}  ",
           "hide": false,
           "legendFormat": "__auto",
           "range": true,
@@ -1073,7 +1073,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_system_uptime{routerboard_name=\"$node\"}",
+          "expr": "pundit_system_uptime{hostname_name=\"$node\"}",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -1102,7 +1102,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_system_update_available{routerboard_name=\"$node\"}",
+          "expr": "pundit_system_update_available{hostname_name=\"$node\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "Latest available: {{newest_version}}",
@@ -1185,7 +1185,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_system_uptime{routerboard_name=\"$node\"}",
+          "expr": "pundit_system_uptime{hostname_name=\"$node\"}",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -1322,7 +1322,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_active_users_info{routerboard_name=\"$node\"}",
+          "expr": "pundit_active_users_info{hostname_name=\"$node\"}",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -1341,8 +1341,8 @@
               "__name__": true,
               "instance": true,
               "job": true,
-              "routerboard_address": true,
-              "routerboard_name": true,
+              "hostname_address": true,
+              "hostname_name": true,
               "version": true
             },
             "indexByName": {
@@ -1354,8 +1354,8 @@
               "instance": 2,
               "job": 3,
               "name": 4,
-              "routerboard_address": 6,
-              "routerboard_name": 7,
+              "hostname_address": 6,
+              "hostname_name": 7,
               "via": 10,
               "when": 11
             },
@@ -1531,7 +1531,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_system_total_hdd_space{routerboard_name=\"$node\"} - pundit_system_free_hdd_space{routerboard_name=\"$node\"}",
+          "expr": "pundit_system_total_hdd_space{hostname_name=\"$node\"} - pundit_system_free_hdd_space{hostname_name=\"$node\"}",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -1562,7 +1562,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_system_total_hdd_space{routerboard_name=\"$node\"}",
+          "expr": "pundit_system_total_hdd_space{hostname_name=\"$node\"}",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -1651,7 +1651,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_system_routerboard_voltage{routerboard_name=\"$node\"}",
+          "expr": "pundit_system_hostname_voltage{hostname_name=\"$node\"}",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -1748,10 +1748,10 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_public_ip_address_info{routerboard_name=\"$node\"}",
+          "expr": "pundit_public_ip_address_info{hostname_name=\"$node\"}",
           "instant": true,
           "interval": "",
-          "legendFormat": "{{routerboard_address}}",
+          "legendFormat": "{{hostname_address}}",
           "refId": "B"
         }
       ],
@@ -1828,7 +1828,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_public_ip_address_info{routerboard_name=\"$node\"}",
+          "expr": "pundit_public_ip_address_info{hostname_name=\"$node\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "{{public_address}}",
@@ -1840,7 +1840,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_public_ip_address_info{routerboard_name=\"$node\"}",
+          "expr": "pundit_public_ip_address_info{hostname_name=\"$node\"}",
           "hide": false,
           "instant": true,
           "interval": "",
@@ -1946,7 +1946,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_ip_pool_used{routerboard_name=\"$node\"} ",
+          "expr": "pundit_ip_pool_used{hostname_name=\"$node\"} ",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -2114,7 +2114,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_dhcp_lease_info{routerboard_name=\"$node\"}",
+          "expr": "pundit_dhcp_lease_info{hostname_name=\"$node\"}",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -2133,8 +2133,8 @@
               "__name__": true,
               "instance": true,
               "job": true,
-              "routerboard_address": true,
-              "routerboard_name": true
+              "hostname_address": true,
+              "hostname_name": true
             },
             "indexByName": {
               "Time": 9,
@@ -2148,8 +2148,8 @@
               "instance": 7,
               "job": 10,
               "mac_address": 3,
-              "routerboard_address": 11,
-              "routerboard_name": 12,
+              "hostname_address": 11,
+              "hostname_name": 12,
               "server": 2
             },
             "renameByName": {
@@ -2232,7 +2232,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_dhcp_lease_active_count{routerboard_name=\"$node\"}",
+          "expr": "pundit_dhcp_lease_active_count{hostname_name=\"$node\"}",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -2328,7 +2328,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(pundit_dhcp_lease_active_count{routerboard_name=\"$node\"})",
+          "expr": "sum(pundit_dhcp_lease_active_count{hostname_name=\"$node\"})",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -2454,7 +2454,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_routes_total_routes{routerboard_name=\"$node\"}",
+          "expr": "pundit_routes_total_routes{hostname_name=\"$node\"}",
           "format": "time_series",
           "instant": true,
           "interval": "",
@@ -2527,7 +2527,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_routes_protocol_count{routerboard_name=\"$node\"}",
+          "expr": "pundit_routes_protocol_count{hostname_name=\"$node\"}",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -2630,7 +2630,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_interface_full_duplex{routerboard_name=\"$node\"}",
+          "expr": "pundit_interface_full_duplex{hostname_name=\"$node\"}",
           "format": "time_series",
           "instant": true,
           "interval": "",
@@ -2748,7 +2748,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_interface_rx_error_total{routerboard_name=\"$node\"}[4m])",
+          "expr": "rate(pundit_interface_rx_error_total{hostname_name=\"$node\"}[4m])",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -2777,7 +2777,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_interface_tx_error_total{routerboard_name=\"$node\"}[4m])",
+          "expr": "rate(pundit_interface_tx_error_total{hostname_name=\"$node\"}[4m])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2866,7 +2866,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_interface_status{routerboard_name=\"$node\"}",
+          "expr": "pundit_interface_status{hostname_name=\"$node\"}",
           "format": "time_series",
           "instant": true,
           "interval": "",
@@ -2937,7 +2937,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_interface_rate{routerboard_name=\"$node\"}",
+          "expr": "pundit_interface_rate{hostname_name=\"$node\"}",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -2958,14 +2958,14 @@
               "instance": true,
               "job": true,
               "name": false,
-              "routerboard_address": true,
-              "routerboard_name": true
+              "hostname_address": true,
+              "hostname_name": true
             },
             "indexByName": {},
             "renameByName": {
               "Value": "Rate",
               "name": "Interface",
-              "routerboard_name": ""
+              "hostname_name": ""
             }
           }
         }
@@ -3112,7 +3112,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_poe_info{routerboard_name=\"$node\"}",
+          "expr": "pundit_poe_info{hostname_name=\"$node\"}",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -3131,8 +3131,8 @@
               "__name__": true,
               "instance": true,
               "job": true,
-              "routerboard_address": true,
-              "routerboard_name": true
+              "hostname_address": true,
+              "hostname_name": true
             },
             "indexByName": {
               "Time": 9,
@@ -3146,8 +3146,8 @@
               "instance": 7,
               "job": 10,
               "mac_address": 3,
-              "routerboard_address": 11,
-              "routerboard_name": 12,
+              "hostname_address": 11,
+              "hostname_name": 12,
               "server": 2
             },
             "renameByName": {
@@ -3294,7 +3294,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_interface_rx_byte_total{routerboard_name=\"$node\"}[4m])*8",
+          "expr": "rate(pundit_interface_rx_byte_total{hostname_name=\"$node\"}[4m])*8",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -3326,7 +3326,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_interface_tx_byte_total{routerboard_name=\"$node\"}[4m])*8",
+          "expr": "rate(pundit_interface_tx_byte_total{hostname_name=\"$node\"}[4m])*8",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -3502,7 +3502,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_connection_stats{routerboard_name=\"$node\"}",
+          "expr": "pundit_connection_stats{hostname_name=\"$node\"}",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -3521,8 +3521,8 @@
               "__name__": true,
               "instance": true,
               "job": true,
-              "routerboard_address": true,
-              "routerboard_name": true,
+              "hostname_address": true,
+              "hostname_name": true,
               "version": true
             },
             "indexByName": {
@@ -3533,8 +3533,8 @@
               "dst_addresses": 8,
               "instance": 2,
               "job": 3,
-              "routerboard_address": 4,
-              "routerboard_name": 5,
+              "hostname_address": 4,
+              "hostname_name": 5,
               "src_address": 9
             },
             "renameByName": {
@@ -3653,7 +3653,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "pundit_connection_stats{routerboard_name=\"$node\"}",
+          "expr": "pundit_connection_stats{hostname_name=\"$node\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "{{dhcp_name}}",
@@ -3762,7 +3762,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_firewall_filter_total{routerboard_name=\"$node\", log=\"1\"}[4m])*8",
+          "expr": "rate(pundit_firewall_filter_total{hostname_name=\"$node\", log=\"1\"}[4m])*8",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -3887,7 +3887,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_firewall_raw_total{routerboard_name=\"$node\", log=\"1\"}[4m])*8",
+          "expr": "rate(pundit_firewall_raw_total{hostname_name=\"$node\", log=\"1\"}[4m])*8",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -4012,7 +4012,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_firewall_filter_total{routerboard_name=\"$node\"}[4m])*8",
+          "expr": "rate(pundit_firewall_filter_total{hostname_name=\"$node\"}[4m])*8",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -4137,7 +4137,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_firewall_raw_total{routerboard_name=\"$node\"}[4m])*8",
+          "expr": "rate(pundit_firewall_raw_total{hostname_name=\"$node\"}[4m])*8",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -4275,7 +4275,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(pundit_netwatch_status{routerboard_name=\"$node\"}[1m])",
+          "expr": "max_over_time(pundit_netwatch_status{hostname_name=\"$node\"}[1m])",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -4404,7 +4404,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_netwatch_info{routerboard_name=\"$node\"}",
+          "expr": "pundit_netwatch_info{hostname_name=\"$node\"}",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -4425,8 +4425,8 @@
               "instance": true,
               "job": true,
               "name": true,
-              "routerboard_address": true,
-              "routerboard_name": true,
+              "hostname_address": true,
+              "hostname_name": true,
               "timeout": true
             },
             "indexByName": {
@@ -4439,8 +4439,8 @@
               "interval": 11,
               "job": 6,
               "name": 12,
-              "routerboard_address": 7,
-              "routerboard_name": 8,
+              "hostname_address": 7,
+              "hostname_name": 8,
               "since": 10,
               "status": 2,
               "timeout": 13
@@ -4608,7 +4608,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "pundit_wlan_noise_floor{routerboard_name=\"$node\"}",
+              "expr": "pundit_wlan_noise_floor{hostname_name=\"$node\"}",
               "interval": "",
               "legendFormat": "{{channel}}",
               "range": true,
@@ -4754,7 +4754,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "pundit_wlan_overall_tx_ccq{routerboard_name=\"$node\"}",
+              "expr": "pundit_wlan_overall_tx_ccq{hostname_name=\"$node\"}",
               "instant": false,
               "interval": "",
               "legendFormat": "{{channel}}",
@@ -4891,7 +4891,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "pundit_wlan_clients_devices_info{routerboard_name=\"$node\"}",
+              "expr": "pundit_wlan_clients_devices_info{hostname_name=\"$node\"}",
               "format": "table",
               "instant": true,
               "interval": "",
@@ -4910,8 +4910,8 @@
                   "__name__": true,
                   "instance": true,
                   "job": true,
-                  "routerboard_address": true,
-                  "routerboard_name": true
+                  "hostname_address": true,
+                  "hostname_name": true
                 },
                 "indexByName": {
                   "Time": 0,
@@ -4923,8 +4923,8 @@
                   "interface": 11,
                   "job": 5,
                   "mac_address": 4,
-                  "routerboard_address": 6,
-                  "routerboard_name": 7,
+                  "hostname_address": 6,
+                  "hostname_name": 7,
                   "rx_rate": 8,
                   "tx_rate": 9,
                   "uptime": 10
@@ -5070,7 +5070,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "pundit_wlan_registered_clients{routerboard_name=\"$node\"}",
+              "expr": "pundit_wlan_registered_clients{hostname_name=\"$node\"}",
               "interval": "",
               "legendFormat": "{{channel}}",
               "range": true,
@@ -5193,7 +5193,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "pundit_wlan_clients_tx_ccq{routerboard_name=\"$node\"}",
+              "expr": "pundit_wlan_clients_tx_ccq{hostname_name=\"$node\"}",
               "instant": false,
               "interval": "",
               "legendFormat": "{{dhcp_name}}",
@@ -5365,7 +5365,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "rate(pundit_wlan_clients_tx_bytes_total{routerboard_name=\"$node\"}[4m])",
+              "expr": "rate(pundit_wlan_clients_tx_bytes_total{hostname_name=\"$node\"}[4m])",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -5397,7 +5397,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "rate(pundit_wlan_clients_rx_bytes_total{routerboard_name=\"$node\"}[4m])",
+              "expr": "rate(pundit_wlan_clients_rx_bytes_total{hostname_name=\"$node\"}[4m])",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -5517,7 +5517,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "pundit_wlan_clients_signal_strength{routerboard_name=\"$node\"}",
+              "expr": "pundit_wlan_clients_signal_strength{hostname_name=\"$node\"}",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -5637,7 +5637,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "pundit_wlan_clients_signal_to_noise{routerboard_name=\"$node\"}",
+              "expr": "pundit_wlan_clients_signal_to_noise{hostname_name=\"$node\"}",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -5802,7 +5802,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_capsman_remote_caps_info{routerboard_name=\"$node\"}",
+          "expr": "pundit_capsman_remote_caps_info{hostname_name=\"$node\"}",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -5821,8 +5821,8 @@
               "__name__": true,
               "instance": true,
               "job": true,
-              "routerboard_address": true,
-              "routerboard_name": true
+              "hostname_address": true,
+              "hostname_name": true
             },
             "indexByName": {
               "Time": 0,
@@ -5833,8 +5833,8 @@
               "identity": 2,
               "instance": 5,
               "job": 6,
-              "routerboard_address": 7,
-              "routerboard_name": 8,
+              "hostname_address": 7,
+              "hostname_name": 8,
               "version": 9
             },
             "renameByName": {}
@@ -5971,7 +5971,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_capsman_clients_devices_info{routerboard_name=\"$node\"}",
+          "expr": "pundit_capsman_clients_devices_info{hostname_name=\"$node\"}",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -5990,8 +5990,8 @@
               "__name__": true,
               "instance": true,
               "job": true,
-              "routerboard_address": true,
-              "routerboard_name": true
+              "hostname_address": true,
+              "hostname_name": true
             },
             "indexByName": {
               "Time": 0,
@@ -6003,8 +6003,8 @@
               "interface": 10,
               "job": 12,
               "mac_address": 4,
-              "routerboard_address": 13,
-              "routerboard_name": 14,
+              "hostname_address": 13,
+              "hostname_name": 14,
               "rx_rate": 6,
               "rx_signal": 5,
               "ssid": 11,
@@ -6086,7 +6086,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_capsman_registrations_count{routerboard_name=\"$node\"}",
+          "expr": "pundit_capsman_registrations_count{hostname_name=\"$node\"}",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -6115,7 +6115,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(pundit_capsman_registrations_count{routerboard_name=\"$node\"})",
+          "expr": "sum(pundit_capsman_registrations_count{hostname_name=\"$node\"})",
           "instant": true,
           "interval": "",
           "legendFormat": "Total",
@@ -6203,7 +6203,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_capsman_clients_signal_strength{routerboard_name=\"$node\"}",
+          "expr": "pundit_capsman_clients_signal_strength{hostname_name=\"$node\"}",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -6326,7 +6326,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_capsman_clients_signal_strength{routerboard_name=\"$node\"}",
+          "expr": "pundit_capsman_clients_signal_strength{hostname_name=\"$node\"}",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -6481,7 +6481,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_capsman_clients_tx_bytes_total{routerboard_name=\"$node\"}[4m])*8",
+          "expr": "rate(pundit_capsman_clients_tx_bytes_total{hostname_name=\"$node\"}[4m])*8",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -6513,7 +6513,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_capsman_clients_rx_bytes_total{routerboard_name=\"$node\"}[4m])*8",
+          "expr": "rate(pundit_capsman_clients_rx_bytes_total{hostname_name=\"$node\"}[4m])*8",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -6659,7 +6659,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "pundit_queue_simple_rates_download_total{routerboard_name=\"$node\"}*8",
+              "expr": "pundit_queue_simple_rates_download_total{hostname_name=\"$node\"}*8",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -6691,7 +6691,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "pundit_queue_simple_rates_upload_total{routerboard_name=\"$node\"}*8",
+              "expr": "pundit_queue_simple_rates_upload_total{hostname_name=\"$node\"}*8",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -6829,7 +6829,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "pundit_queue_simple_bytes_download_total{routerboard_name=\"$node\"}",
+              "expr": "pundit_queue_simple_bytes_download_total{hostname_name=\"$node\"}",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -6861,7 +6861,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "pundit_queue_simple_bytes_upload_total{routerboard_name=\"$node\"}",
+              "expr": "pundit_queue_simple_bytes_upload_total{hostname_name=\"$node\"}",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -6999,7 +6999,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "rate(pundit_queue_simple_queued_bytes_upload_total{routerboard_name=\"$node\"}[4m])",
+              "expr": "rate(pundit_queue_simple_queued_bytes_upload_total{hostname_name=\"$node\"}[4m])",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -7031,7 +7031,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "rate(pundit_queue_simple_queued_bytes_upload_total{routerboard_name=\"$node\"}[4m])",
+              "expr": "rate(pundit_queue_simple_queued_bytes_upload_total{hostname_name=\"$node\"}[4m])",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -7169,7 +7169,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "rate(pundit_queue_simple_dropped_download_total{routerboard_name=\"$node\"}[4m])",
+              "expr": "rate(pundit_queue_simple_dropped_download_total{hostname_name=\"$node\"}[4m])",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -7201,7 +7201,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "rate(pundit_queue_simple_dropped_upload_total{routerboard_name=\"$node\"}[4m])",
+              "expr": "rate(pundit_queue_simple_dropped_upload_total{hostname_name=\"$node\"}[4m])",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -7351,7 +7351,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "pundit_queue_tree_rates_total{routerboard_name=\"$node\"}*8",
+              "expr": "pundit_queue_tree_rates_total{hostname_name=\"$node\"}*8",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -7489,7 +7489,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "pundit_queue_tree_bytes_total{routerboard_name=\"$node\"}",
+              "expr": "pundit_queue_tree_bytes_total{hostname_name=\"$node\"}",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -7627,7 +7627,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "rate(pundit_queue_tree_queued_bytes_total{routerboard_name=\"$node\"}[4m])",
+              "expr": "rate(pundit_queue_tree_queued_bytes_total{hostname_name=\"$node\"}[4m])",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -7765,7 +7765,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "rate(pundit_queue_tree_dropped_total{routerboard_name=\"$node\"}[4m])",
+              "expr": "rate(pundit_queue_tree_dropped_total{hostname_name=\"$node\"}[4m])",
               "format": "time_series",
               "functions": [],
               "group": {
@@ -7960,7 +7960,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_kid_control_device_info{routerboard_name=\"$node\"}",
+          "expr": "pundit_kid_control_device_info{hostname_name=\"$node\"}",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -7981,8 +7981,8 @@
               "instance": true,
               "job": true,
               "name": false,
-              "routerboard_address": true,
-              "routerboard_name": true
+              "hostname_address": true,
+              "hostname_name": true
             },
             "includeByName": {},
             "indexByName": {
@@ -7996,8 +7996,8 @@
               "job": 8,
               "mac_address": 4,
               "name": 3,
-              "routerboard_address": 9,
-              "routerboard_name": 10,
+              "hostname_address": 9,
+              "hostname_name": 10,
               "user": 6
             },
             "renameByName": {
@@ -8145,7 +8145,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_kid_control_device_rate_down{routerboard_name=\"$node\"}*8",
+          "expr": "pundit_kid_control_device_rate_down{hostname_name=\"$node\"}*8",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -8174,7 +8174,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_kid_control_device_rate_up{routerboard_name=\"$node\"}*8",
+          "expr": "pundit_kid_control_device_rate_up{hostname_name=\"$node\"}*8",
           "hide": false,
           "instant": false,
           "legendFormat": "Up | {{ dhcp_name }}",
@@ -8282,7 +8282,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "pundit_kid_control_device_idle_time{routerboard_name=\"$node\"}",
+          "expr": "pundit_kid_control_device_idle_time{hostname_name=\"$node\"}",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -8439,7 +8439,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_kid_control_device_bytes_down_total{routerboard_name=\"$node\"}[4m])*8",
+          "expr": "rate(pundit_kid_control_device_bytes_down_total{hostname_name=\"$node\"}[4m])*8",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -8471,7 +8471,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_kid_control_device_bytes_up_total{routerboard_name=\"$node\"}[4m])*8",
+          "expr": "rate(pundit_kid_control_device_bytes_up_total{hostname_name=\"$node\"}[4m])*8",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -8597,7 +8597,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_collection_time_total{routerboard_name=\"$node\"}[4m])  ",
+          "expr": "rate(pundit_collection_time_total{hostname_name=\"$node\"}[4m])  ",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -8718,7 +8718,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(pundit_collection_time_total{routerboard_name=\"$node\"}[4m])",
+          "expr": "rate(pundit_collection_time_total{hostname_name=\"$node\"}[4m])",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -8747,7 +8747,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(rate(pundit_collection_time_total{routerboard_name=\"$node\"}[4m]))",
+          "expr": "sum(rate(pundit_collection_time_total{hostname_name=\"$node\"}[4m]))",
           "interval": "",
           "legendFormat": "Total",
           "range": true,
@@ -8982,15 +8982,15 @@
           "type": "prometheus",
           "uid": "PBFA97CFB590B2093"
         },
-        "definition": "label_values(pundit_system_identity_info, routerboard_name)",
+        "definition": "label_values(pundit_system_identity_info, hostname_name)",
         "hide": 0,
         "includeAll": false,
-        "label": "Routerboard",
+        "label": "hostname",
         "multi": false,
         "name": "node",
         "options": [],
         "query": {
-          "query": "label_values(pundit_system_identity_info, routerboard_name)",
+          "query": "label_values(pundit_system_identity_info, hostname_name)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,

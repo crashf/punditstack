@@ -112,7 +112,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "count_over_time({job=\"syslog\", routerboard=\"$routerboard\"} [$__interval] |~\"(?i)$topics\" |~\"(?i)$searchable_pattern\" !~\"(?i)$exclude\")",
+          "expr": "count_over_time({job=\"syslog\", hostname=\"$hostname\"} [$__interval] |~\"(?i)$topics\" |~\"(?i)$searchable_pattern\" !~\"(?i)$exclude\")",
           "legendFormat": "{{host}}",
           "queryType": "range",
           "refId": "A"
@@ -211,7 +211,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "count_over_time({job=\"syslog\", routerboard=\"$routerboard\"} [$__interval] |regexp \"(?P<prefix>\\\\w+)\\\\: \" |~\"(?i)$topics\" |~\"(?i)$searchable_pattern\" !~\"(?i)$exclude\")",
+          "expr": "count_over_time({job=\"syslog\", hostname=\"$hostname\"} [$__interval] |regexp \"(?P<prefix>\\\\w+)\\\\: \" |~\"(?i)$topics\" |~\"(?i)$searchable_pattern\" !~\"(?i)$exclude\")",
           "legendFormat": "{{prefix}}",
           "queryType": "range",
           "refId": "A"
@@ -252,7 +252,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "{job=\"syslog\", routerboard=\"$routerboard\"} |~\"(?i)$topics\" |~\"(?i)$searchable_pattern\" !~\"(?i)$exclude\"",
+          "expr": "{job=\"syslog\", hostname=\"$hostname\"} |~\"(?i)$topics\" |~\"(?i)$searchable_pattern\" !~\"(?i)$exclude\"",
           "legendFormat": "",
           "queryType": "range",
           "refId": "A"
@@ -284,12 +284,12 @@
         "definition": "",
         "hide": 0,
         "includeAll": false,
-        "label": "Routerboard",
+        "label": "hostname",
         "multi": false,
-        "name": "routerboard",
+        "name": "hostname",
         "options": [],
         "query": {
-          "label": "routerboard",
+          "label": "hostname",
           "refId": "LokiVariableQueryEditor-VariableQuery",
           "stream": "",
           "type": 1
