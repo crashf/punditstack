@@ -14,7 +14,7 @@ services:
       GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
       GF_AUTH_BASIC_ENABLED: "false"
       GF_AUTH_DISABLE_LOGIN_FORM: "true"
-      GF_USERS_DEFAULT_THEME: "light"
+      GF_USERS_DEFAULT_THEME: "dark"
       GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /etc/grafana/provisioning/dashboards/snmp/snmp_pundit_exporter.json
     image: grafana/grafana:latest
     networks:
