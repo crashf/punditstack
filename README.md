@@ -49,5 +49,5 @@ SNMP (network or other)
 ```
 
 SYSLOG - Promtail
-1. Configure network devices to send syslog messages to docker VM IP:514 UDP
+1. Configure network devices to send syslog messages to docker vm ip:514 UDP
 
