@@ -538,7 +538,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "SNMP Loki Logs",
+  "title": "Syslog",
   "uid": "awslix6doiakp-mkt-loki",
   "version": 1,
   "weekStart": ""
