@@ -28,31 +28,7 @@
   "graphTooltip": 0,
   "id": 3,
   "links": [
-    {
-      "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
-      "keepTime": false,
-      "tags": [
-        "snmp",
-        "pundit"
-      ],
-      "targetBlank": false,
-      "title": "SNMP Exporter",
-      "tooltip": "",
-      "type": "dashboards",
-      "url": ""
-    },
-    {
-      "asDropdown": true,
-      "icon": "external link",
-      "keepTime": false,
-      "tags": [
-        "system"
-      ],
-      "title": "System Overview",
-      "type": "dashboards"
-    }
+  
   ],
   "liveNow": false,
   "panels": [

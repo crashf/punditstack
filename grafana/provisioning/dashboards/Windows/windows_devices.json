@@ -21,31 +21,7 @@
     "graphTooltip": 1,
     "id": 26,
     "links": [
-      {
-        "icon": "bolt",
-        "tags": [],
-        "targetBlank": true,
-        "title": "Update",
-        "tooltip": "Update the current dashboard",
-        "type": "link",
-        "url": "https://grafana.com/grafana/dashboards/10467"
-      },
-      {
-        "icon": "question",
-        "tags": [],
-        "targetBlank": true,
-        "title": "GitHub",
-        "tooltip": "View more dashboards",
-        "type": "link",
-        "url": "https://github.com/starsliao/Prometheus"
-      },
-      {
-        "asDropdown": true,
-        "icon": "external link",
-        "tags": [],
-        "targetBlank": true,
-        "type": "dashboards"
-      }
+     
     ],
     "panels": [
       {
