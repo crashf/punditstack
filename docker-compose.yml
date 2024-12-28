@@ -33,8 +33,7 @@ services:
     command: -config.file=/etc/loki/loki-config.yml
     container_name: loki
     image: grafana/loki:latest
-    networks:
-      pundit: null
+    network_mode: container:wireguard
     ports:
     - protocol: tcp
       published: 3100
@@ -52,8 +51,7 @@ services:
     - --web.enable-lifecycle
     container_name: prometheus
     image: prom/prometheus:latest
-    networks:
-      pundit: null
+    network_mode: container:wireguard
     ports:
     - published: 9090
       target: 9090
@@ -66,8 +64,7 @@ services:
     command: -config.file=/etc/promtail/promtail-config.yml
     container_name: promtail
     image: grafana/promtail:latest
-    networks:
-      pundit: null
+    network_mode: container:wireguard
     ports:
     - protocol: tcp
       published: 1514
@@ -85,8 +82,7 @@ services:
     depends_on:
     - promtail
     image: balabit/syslog-ng:latest
-    networks:
-      pundit: null
+    network_mode: container:wireguard
     ports:
     - protocol: udp
       published: 514
@@ -111,8 +107,7 @@ services:
       - influxdb
     ports:
       - '8125:8125'  # Expose Telegraf's StatsD port
-    networks:
-      pundit: null  # Connect the Telegraf container to the monitoring network
+    network_mode: container:wireguard
   influxdb:
     image: influxdb:1.8-alpine
     container_name: influxdb
@@ -136,9 +131,26 @@ services:
       - ./snmp_exporter/snmp_exporter.yml:/snmp.yml  # Mount the snmp_exporter configuration file
     ports:
       - '9116:9116'  # Expose Snmp_exporters port
-    networks:
-      pundit: null  # Connect the container to the monitoring network
+    network_mode: container:wireguard
   
+  wireguard:
+    image: linuxserver/wireguard
+    container_name: wireguard
+    restart: unless-stopped
+    networks:
+      pundit: null
+    volumes:
+      - './wg:/config'
+      - '/lib/modules:/lib/modules:ro'
+    environment:
+      - PUID=1000
+      - PGID=1000
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+
+
 
   
 
