@@ -9,5 +9,5 @@ datasources:
     type: influxdb
     url: "http://influxdb:8086/"
     password: "adminpundit"
-    user: "ad,om"
+    user: "admin"
     database: "influx"
