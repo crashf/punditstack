@@ -205,6 +205,7 @@ services:
     sysctls:
       - net.ipv4.ip_forward=1
     entrypoint: /bin/sh -c "/config/custom-cont-init.d/iptables-setup.sh && /init"
+    privileged: true
 
   debug:
     image: appropriate/curl
