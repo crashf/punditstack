@@ -6,5 +6,8 @@ datasources:
     jsonData: 
       maxLines: 1000
     name: Influx
-    type: influx
+    type: influxdb
     url: "http://influxdb:8086/"
+    password: "adminpundit"
+    user: "ad,om"
+    database: "influx"
