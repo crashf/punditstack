@@ -149,8 +149,16 @@ def prompt_for_subnet():
             print("Invalid subnet format. Please try again.")
 
 def validate_subnet(subnet):
-    pattern = r"^10\.255\.\d{1,3}\.0/24$"
-    return bool(re.match(pattern, subnet))
+    bogon_patterns = [
+        r"^10\.\d{1,3}\.\d{1,3}\.\d{1,3}/\d+$",          # 10.0.0.0/8
+        r"^172\.(1[6-9]|2[0-9]|3[0-1])\.\d{1,3}\.\d{1,3}/\d+$",  # 172.16.0.0/12
+        r"^192\.168\.\d{1,3}\.\d{1,3}/\d+$",             # 192.168.0.0/16
+    ]
+    
+    for pattern in bogon_patterns:
+        if re.match(pattern, subnet):
+            return True
+    return False
 
 def prompt_docker_compose():
     while True:
