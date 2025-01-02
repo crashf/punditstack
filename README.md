@@ -18,7 +18,15 @@ To go with default full stack, just run setup.py:
 python3 setup.py create <clientname>
  ```
 
- After install, you must edit config files to add enpoints and install exporters (windows)
+ You will be prompted to enter the clients subnet eg; 10.255.10.0/24 or 192.168.2.0/24 etc.
+
+ You will be provided with a wireguard tunnel IP (10.8.0.x) This will be the IP used to access the monitoring services
+
+You will be prompted during install to enter the name/ipaddresses for windows and SNMP devices for prometheus. This can also be done after the fact by triggering:
+
+```
+python3 setup.py add-devices
+```
 
 Windows - Prometheus 
 1. Install windows exporter on each windows device that will be managed. This can be done from Ninja "Install Windows Exporter (monitoring)" or directly from the github release: https://github.com/prometheus-community/windows_exporter/releases
