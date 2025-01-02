@@ -25,10 +25,10 @@ def prompt_for_devices():
             print("Device name cannot be empty.")
             name = input("Enter the device name: ").strip()
 
-        ip = input(f"Enter the IP address for {name}: ").strip()
+        ip = input(f"Enter the IP address for {highlight_variable(name)}: ").strip()
         while not validate_ip(ip):
             print("Invalid IP address format. Please try again.")
-            ip = input(f"Enter the IP address for {name}: ").strip()
+            ip = input(f"Enter the IP address for {highlight_variable(name)}: ").strip()
 
         devices.append({'name': name, 'ip': ip})
 
@@ -37,22 +37,55 @@ def prompt_for_devices():
             break
     return devices
 
+def prompt_for_snmp_devices():
+    """Prompt the user if they want to add SNMP devices to Prometheus."""
+    add_snmp_devices = input("\nWould you like to add SNMP devices to Prometheus? (y/n) ").strip().lower()
+    
+    if add_snmp_devices in ['y', 'yes']:
+        snmp_devices = []
+        while True:
+            ip = input("Enter the IP address for the SNMP device: \n").strip()
+            while not validate_ip(ip):
+                print("Invalid IP address format. Please try again.")
+                ip = input("Enter the IP address for the SNMP device: ").strip()
+
+            snmp_devices.append({'ip': ip})
+
+            continue_input = input("Would you like to add another SNMP device? (y/n): ").strip().lower()
+            if continue_input not in ['y', 'yes']:
+                break
+        return snmp_devices
+    else:
+        print("No SNMP devices will be added.")
+        return []
+
+def format_snmp_prometheus_config(snmp_devices):
+    """Format the SNMP devices into Prometheus configuration entries under the correct section."""
+    config_entries = []
+    for device in snmp_devices:
+        # Correct the formatting so it doesn't include an extra dash and indentation
+        entry = (
+            f"        - {device['ip']}  # SNMP device added from setup\n"
+        )
+        config_entries.append(entry)
+    return "".join(config_entries)
+
 def format_prometheus_config(devices):
     """Format the devices into Prometheus configuration entries."""
     config_entries = []
     for device in devices:
         entry = (
-            f"- job_name: '{device['name']}'\n"
+            f"  - job_name: '{device['name']}'\n"
             f"    scrape_interval: 1m\n"
             f"    metrics_path: /metrics\n"
             f"    static_configs:\n"
-            f"    - targets: ['{device['ip']}:9182']\n"
+            f"      - targets: ['{device['ip']}:9182']\n"  # Proper indentation here
         )
         config_entries.append(entry)
-    return "\n".join(config_entries)
+    return "".join(config_entries)
 
-def append_to_prometheus_config(devices, file_path='./prometheus/prometheus.yml'):
-    """Append the formatted configuration entries to the Prometheus configuration file."""
+def append_to_prometheus_config(devices, snmp_devices, file_path='./prometheus/prometheus.yml'):
+    """Append the formatted configuration entries for both Windows and SNMP devices to the Prometheus configuration file."""
     try:
         # Read the existing file content
         if os.path.exists(file_path):
@@ -61,22 +94,44 @@ def append_to_prometheus_config(devices, file_path='./prometheus/prometheus.yml'
         else:
             lines = []
 
-        # Find the placeholder comment
-        placeholder_index = next(
+        # Find the placeholder comments for Windows and SNMP targets
+        windows_placeholder_index = next(
             (i for i, line in enumerate(lines) if line.strip() == "####  Added from setup"), 
             None
         )
 
-        # Generate the new configuration
-        new_config = format_prometheus_config(devices)
+        snmp_placeholder_index = next(
+            (i for i, line in enumerate(lines) if line.strip() == "#### SNMP ADDED FROM SETUP"), 
+            None
+        )
 
-        # Insert the new configuration after the placeholder
-        if placeholder_index is not None:
-            lines.insert(placeholder_index + 1, f"{new_config}\n")
+        # Generate the new configuration only if there are devices to add
+        if devices:
+            new_config_windows = format_prometheus_config(devices)
         else:
-            # If the placeholder is not found, append the new configuration to the end
-            lines.append("\n####  Added from setup\n")
-            lines.append(f"{new_config}\n")
+            new_config_windows = None
+
+        if snmp_devices:
+            new_config_snmp = format_snmp_prometheus_config(snmp_devices)
+        else:
+            new_config_snmp = None
+
+        # Insert the new configuration for Windows if there are devices
+        if new_config_windows:
+            if windows_placeholder_index is not None:
+                lines.insert(windows_placeholder_index + 1, f"{new_config_windows}\n")
+            else:
+                # If the placeholder is not found, append the new configuration to the end
+                lines.append("\n####  Added from setup\n")
+                lines.append(f"{new_config_windows}\n")
+
+        # Insert the new SNMP configuration if there are devices
+        if new_config_snmp:
+            if snmp_placeholder_index is not None:
+                # Insert the SNMP configuration directly below "#### SNMP ADDED FROM SETUP"
+                lines.insert(snmp_placeholder_index + 1, f"{new_config_snmp}")
+            else:
+                print("Could not find the SNMP targets placeholder ('#### SNMP ADDED FROM SETUP') in the file.")
 
         # Write the updated content back to the file
         with open(file_path, 'w') as file:
@@ -85,6 +140,7 @@ def append_to_prometheus_config(devices, file_path='./prometheus/prometheus.yml'
         print(f"Devices successfully added to {file_path}")
     except Exception as e:
         print(f"An error occurred while updating {file_path}: {e}")
+
 
 
 # Make sure to update the password to the password you set for your web GUI
@@ -137,10 +193,15 @@ def create_new_client(client_name, base_url=base_url, session_id=None):
                 subnet = prompt_for_subnet()
                 update_defaultroute_script(subnet)
 
-                # Ask if the user wants to add Windows devices to Prometheus
+                # Prompt for Windows devices regardless of the choice
                 devices = prompt_for_windows_devices()
                 if devices:
-                    append_to_prometheus_config(devices)
+                    append_to_prometheus_config(devices, [])  # Pass an empty list for SNMP
+
+                # Always ask for SNMP devices
+                snmp_devices = prompt_for_snmp_devices()
+                if snmp_devices:
+                    append_to_prometheus_config([], snmp_devices)  # Pass an empty list for Windows
 
                 if prompt_docker_compose():
                     execute_pre_docker_script()
@@ -242,7 +303,7 @@ def validate_subnet(subnet):
 
 def prompt_for_windows_devices():
     """Prompt the user if they want to add Windows devices to Prometheus."""
-    add_windows_devices = input("Would you like to add Windows devices to Prometheus? (y/n): ").strip().lower()
+    add_windows_devices = input("\nWould you like to add Windows devices to Prometheus?\n Windows Exporter must be installed separately. (Y/N) ").strip().lower()
     if add_windows_devices in ['y', 'yes']:
         return prompt_for_devices()  # Call the existing device prompt function if they want to add devices
     else:
@@ -259,13 +320,15 @@ def prompt_docker_compose():
         else:
             print("Invalid input. Please enter 'y' or 'n'.")
 
+# Add an action to directly add Windows and SNMP devices
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Manage WireGuard clients and Prometheus configuration')
     parser.add_argument('action', metavar='ACTION', type=str, 
-                        choices=['status', 'create', 'prometheus-config'], 
+                        choices=['status', 'create', 'prometheus-config', 'add-devices'],  # Added 'add-devices'
                         help='Action to perform')
     parser.add_argument('name', metavar='NAME', type=str, nargs='?', 
                         help='Name for new client (required for "create" action)')
+
     args = parser.parse_args()
 
     if args.action == 'status':
@@ -276,4 +339,18 @@ if __name__ == "__main__":
         create_new_client(args.name)
     elif args.action == 'prometheus-config':
         devices = prompt_for_devices()
-        append_to_prometheus_config(devices)
+        snmp_devices = prompt_for_snmp_devices()  # SNMP Devices
+        append_to_prometheus_config(devices, snmp_devices)
+    elif args.action == 'add-devices':  # Handle adding devices independently
+        print("You can now add Windows and SNMP devices to Prometheus.")
+
+        # Prompt for Windows devices
+        devices = prompt_for_windows_devices()
+        if devices:
+            append_to_prometheus_config(devices, [])  # Pass an empty list for SNMP
+
+        # Prompt for SNMP devices
+        snmp_devices = prompt_for_snmp_devices()
+        if snmp_devices:
+            append_to_prometheus_config([], snmp_devices)  # Pass an empty list for Windows
+
