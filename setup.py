@@ -2,6 +2,7 @@ import requests
 import argparse
 import subprocess
 import os
+import re
 
 # Change this to your domain name or IP address of the server running wg-easy
 base_url = 'http://monitorvpn.pund-it.ca:51821'
@@ -12,131 +13,109 @@ def get_session_id(base_url=base_url):
     headers = {'Content-Type': 'application/json'}
     data = '{"password": "pun!Zlrn6006"}'  # Update with the actual password
 
-    # Make initial request to obtain session ID
     response = requests.post(path, headers=headers, data=data)
-
-    # Extract session ID from Set-Cookie header
     session_id = response.cookies.get('connect.sid')
     return session_id
+
+def highlight_variable(variable):
+    return f"\033[92m{variable}\033[0m"  # Green color for highlighting
 
 def get_client_data(base_url=base_url, session_id=None):
     if not session_id:
         session_id = get_session_id(base_url)
     
-    # Make second request with session ID in Cookie header
     path = base_url + '/api/wireguard/client'
     headers = {'Cookie': f'connect.sid={session_id}'}
     response = requests.get(path, headers=headers)
 
-    # Check if the request was successful and print client data
     if response.status_code == 200:
         client_data = response.json()
-        print(f'Number of clients: {len(client_data)},')
-        for client in client_data:
-            print(f'Client name: {client["name"]},Client id: {client["id"]}')
-            #print(f'Client id: {client["id"]}')
+        #print(f'Number of clients: {len(client_data)}')
+        #for client in client_data:
+            #print(f'Client name: {client["name"]}, Client id: {client["id"]}')
+        return client_data  # Return the client data
     else:
         print(f'Error: {response.status_code} - {response.text}')
+        return None  # Return None if there's an error
 
 def create_new_client(client_name, base_url=base_url, session_id=None):
     if not session_id:
         session_id = get_session_id(base_url)
     
-    # Step 1: Create the new client
     path = base_url + '/api/wireguard/client'
     headers = {'Content-Type': 'application/json', 'Cookie': f'connect.sid={session_id}'}
     data = '{"name":"'+client_name+'"}'
     response = requests.post(path, headers=headers, data=data)
 
-    # Step 2: Check if the client was successfully created
     if response.status_code == 200:
-        print(f"New client '{client_name}' created successfully.")
+        print(f"\nNew client '{highlight_variable(client_name)}' created successfully.")
+        client_data = get_client_data(base_url, session_id)
         
-        # Step 3: Retrieve the client list and find the newly created client
-        path = base_url + '/api/wireguard/client'
-        headers = {'Cookie': f'connect.sid={session_id}'}
-        client_response = requests.get(path, headers=headers)
-        
-        if client_response.status_code == 200:
-            client_data = client_response.json()
-            # Step 4: Search for the newly created client by name
-            client_id = None
-            for client in client_data:
-                if client['name'] == client_name:
-                    client_id = client['id']
-                    break
-            
+        if client_data:
+            client_id = next((client['id'] for client in client_data if client['name'] == client_name), None)
+
             if client_id:
-                print(f"Client ID for '{client_name}': {client_id}")
-                # Step 5: Download the configuration file using the client_id
-                download_client_config(client_id, base_url, session_id)
-                
-                # Step 6: Prompt for the Clients Subnet and update the defaultroute.sh file
+                print(f"Client ID for '{highlight_variable(client_name)}': {highlight_variable(client_id)}")
+                download_client_config(client_id, client_name, base_url, session_id)
                 subnet = prompt_for_subnet()
                 update_defaultroute_script(subnet)
-                
-                # Step 7: Ask the user for confirmation before triggering Docker Compose
+
                 if prompt_docker_compose():
-                    execute_pre_docker_script()  # Run chmod before Docker Compose
+                    execute_pre_docker_script()
                     trigger_docker_compose()
                 else:
                     print("Docker Compose was not triggered.")
             else:
                 print(f"Client '{client_name}' not found in the client list.")
         else:
-            print(f"Error retrieving client list: {client_response.status_code} - {client_response.text}")
+            print("Error retrieving client data.")
     else:
         print(f'Error creating client: {response.status_code} - {response.text}')
 
-def download_client_config(client_name, base_url, session_id):
+def download_client_config(client_id, client_name, base_url=base_url, session_id=None):
     if not session_id:
         session_id = get_session_id(base_url)
     
-    # Construct the URL to download the configuration file using client name
-    path = f"{base_url}/api/wireguard/client/{client_name}/configuration"
+    path = f"{base_url}/api/wireguard/client/{client_id}/configuration"
     headers = {'Cookie': f'connect.sid={session_id}'}
-    
-    # Request the configuration file
     response = requests.get(path, headers=headers, stream=True)
 
-    # Check if the request was successful and save the configuration file
     if response.status_code == 200:
         config_file_path = f"./wg/wg_confs/wg0.conf"
+        os.makedirs(os.path.dirname(config_file_path), exist_ok=True)
         with open(config_file_path, "wb") as config_file:
             for chunk in response.iter_content(chunk_size=8192):
                 config_file.write(chunk)
-        print(f"Configuration file saved as {config_file_path}")
+        #print(f"Configuration file saved as {config_file_path}")
+
+        try:
+            with open(config_file_path, "r") as config_file:
+                for line in config_file:
+                    if line.startswith("Address ="):
+                        address = line.split("=")[1].strip()
+                        print(f"Assigned Address for '{highlight_variable(client_name)}': {highlight_variable(address)}\n")
+                        break
+        except Exception as e:
+            print(f"Error reading the configuration file: {e}")
     else:
         print(f"Failed to download configuration file: {response.status_code}")
         print(response.text)
 
 def update_defaultroute_script(subnet):
     try:
-        # Check if the defaultroute.sh file exists
         defaultroute_file = './scripts/defaultroute.sh'
         if os.path.exists(defaultroute_file):
-            # Open the file and read all the lines
             with open(defaultroute_file, 'r') as file:
                 lines = file.readlines()
 
-            # Find the index of the line that contains '# Start the original container process'
-            insert_index = None
-            for i, line in enumerate(lines):
-                if '# Start the original container process' in line:
-                    insert_index = i
-                    break
-
+            insert_index = next((i for i, line in enumerate(lines) if '# Start the original container process' in line), None)
             if insert_index is not None:
-                # Create the line to be inserted
                 route_line = f'ip route add {subnet} via 192.168.254.1\n'
-                
-                # Insert the new line before the identified line
                 lines.insert(insert_index, route_line)
-                
-                # Write the updated content back to the file
+
                 with open(defaultroute_file, 'w') as file:
                     file.writelines(lines)
-                print(f"Added route for {subnet} in {defaultroute_file}")
+                #print(f"Added route for {subnet} in {defaultroute_file}")
             else:
                 print("Could not find the line '# Start the original container process' in the script.")
         else:
@@ -146,19 +125,15 @@ def update_defaultroute_script(subnet):
 
 def execute_pre_docker_script():
     try:
-        # Run 'chmod +x ./wg/custom-cont-init.d/iptables-setup.sh' before running docker-compose
-        print("Running chmod +x on iptables-setup.sh...")
+        print("Running chmod +x on necessary scripts...")
         subprocess.run(['chmod', '+x', './wg/custom-cont-init.d/iptables-setup.sh'], check=True)
         subprocess.run(['chmod', '+x', './scripts/defaultroute.sh'], check=True)
-        subprocess.run(['chmod', '+x', './grafana/provisioning/dashboards/*.yml'], check=True)
-        print("Permission changed for iptables-setup.sh.")
-        print("Permission changed for defaultroute.sh.")
+        print("Permissions updated successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error occurred while changing permissions: {e}")
 
 def trigger_docker_compose():
     try:
-        # Run 'docker-compose up -d' to start the services in the background
         print("Triggering docker-compose up -d...")
         subprocess.run(['docker-compose', 'up', '-d'], check=True)
         print("Docker Compose has been triggered successfully.")
@@ -174,13 +149,10 @@ def prompt_for_subnet():
             print("Invalid subnet format. Please try again.")
 
 def validate_subnet(subnet):
-    # Check if the subnet format matches 10.255.x.0/24 (basic validation)
-    import re
     pattern = r"^10\.255\.\d{1,3}\.0/24$"
     return bool(re.match(pattern, subnet))
 
 def prompt_docker_compose():
-    # Prompt the user to confirm if they want to trigger Docker Compose
     while True:
         user_input = input("Do you want to trigger 'docker-compose up -d' to start the services? (y/n): ").strip().lower()
         if user_input in ['y', 'yes']:
@@ -191,7 +163,6 @@ def prompt_docker_compose():
             print("Invalid input. Please enter 'y' or 'n'.")
 
 if __name__ == "__main__":
-    # Use argparse to accept user arguments
     parser = argparse.ArgumentParser(description='Show Wireguard clients or create a new client')
     parser.add_argument('action', metavar='ACTION', type=str, choices=['status', 'create'], help='Action to perform')
     parser.add_argument('name', metavar='NAME', type=str, nargs='?', help='Name for new client (required for "create" action)')
