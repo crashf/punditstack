@@ -1,6 +1,7 @@
 import requests
 import argparse
 import subprocess
+import os
 
 # Change this to your domain name or IP address of the server running wg-easy
 base_url = 'http://localhost:51821'
@@ -54,8 +55,13 @@ def create_new_client(client_name, base_url=base_url, session_id=None):
         client_id = new_client_data['id']  # Assuming the response contains an 'id' field (UUID)
         # Call function to download the configuration file
         download_client_config(client_id, client_name, base_url, session_id)
-        # Trigger Docker Compose after client creation and config download
-        trigger_docker_compose()
+        
+        # Ask the user for confirmation before triggering Docker Compose
+        if prompt_docker_compose():
+            execute_pre_docker_script()  # Add this step to run the chmod command
+            trigger_docker_compose()
+        else:
+            print("Docker Compose was not triggered.")
     else:
         print(f'Error: {response.status_code} - {response.text}')
 
@@ -72,7 +78,7 @@ def download_client_config(client_id, client_name, base_url=base_url, session_id
 
     # Check if the request was successful and save the configuration file
     if response.status_code == 200:
-        config_file_path = f"./wg/wg_confs/wg0.conf"
+        config_file_path = f"{client_name}.conf"
         with open(config_file_path, "wb") as config_file:
             for chunk in response.iter_content(chunk_size=8192):
                 config_file.write(chunk)
@@ -80,6 +86,15 @@ def download_client_config(client_id, client_name, base_url=base_url, session_id
     else:
         print(f"Failed to download configuration file: {response.status_code}")
         print(response.text)
+
+def execute_pre_docker_script():
+    try:
+        # Run 'chmod +x ./wg/custom-cont-init.d/iptables-setup.sh' before running docker-compose
+        print("Running chmod +x on iptables-setup.sh...")
+        subprocess.run(['chmod', '+x', './wg/custom-cont-init.d/iptables-setup.sh'], check=True)
+        print("Permission changed for iptables-setup.sh.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error occurred while changing permissions: {e}")
 
 def trigger_docker_compose():
     try:
@@ -89,6 +104,17 @@ def trigger_docker_compose():
         print("Docker Compose has been triggered successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error occurred while running docker-compose: {e}")
+
+def prompt_docker_compose():
+    # Prompt the user to confirm if they want to trigger Docker Compose
+    while True:
+        user_input = input("Do you want to trigger 'docker-compose up -d' to start the services? (y/n): ").strip().lower()
+        if user_input in ['y', 'yes']:
+            return True
+        elif user_input in ['n', 'no']:
+            return False
+        else:
+            print("Invalid input. Please enter 'y' or 'n'.")
 
 if __name__ == "__main__":
     # Use argparse to accept user arguments
