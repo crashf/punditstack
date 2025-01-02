@@ -149,6 +149,7 @@ def execute_pre_docker_script():
         # Run 'chmod +x ./wg/custom-cont-init.d/iptables-setup.sh' before running docker-compose
         print("Running chmod +x on iptables-setup.sh...")
         subprocess.run(['chmod', '+x', './wg/custom-cont-init.d/iptables-setup.sh'], check=True)
+        subprocess.run(['chmod', '+x', './scripts/defaultroute.sh'], check=True)
         print("Permission changed for iptables-setup.sh.")
     except subprocess.CalledProcessError as e:
         print(f"Error occurred while changing permissions: {e}")
