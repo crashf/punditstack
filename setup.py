@@ -72,7 +72,7 @@ def download_client_config(client_id, client_name, base_url=base_url, session_id
 
     # Check if the request was successful and save the configuration file
     if response.status_code == 200:
-        config_file_path = f"{client_name}.conf"
+        config_file_path = f"./wg/wg_confs/wg0.conf"
         with open(config_file_path, "wb") as config_file:
             for chunk in response.iter_content(chunk_size=8192):
                 config_file.write(chunk)
