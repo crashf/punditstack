@@ -56,6 +56,10 @@ def create_new_client(client_name, base_url=base_url, session_id=None):
         # Call function to download the configuration file
         download_client_config(client_id, client_name, base_url, session_id)
         
+        # Prompt for the Clients Subnet and update the defaultroute.sh file
+        subnet = prompt_for_subnet()
+        update_defaultroute_script(subnet)
+        
         # Ask the user for confirmation before triggering Docker Compose
         if prompt_docker_compose():
             execute_pre_docker_script()  # Add this step to run the chmod command
@@ -78,7 +82,7 @@ def download_client_config(client_id, client_name, base_url=base_url, session_id
 
     # Check if the request was successful and save the configuration file
     if response.status_code == 200:
-        config_file_path = f"{client_name}.conf"
+        config_file_path = f"./wg/wg_confs/wg0.conf"
         with open(config_file_path, "wb") as config_file:
             for chunk in response.iter_content(chunk_size=8192):
                 config_file.write(chunk)
@@ -86,6 +90,20 @@ def download_client_config(client_id, client_name, base_url=base_url, session_id
     else:
         print(f"Failed to download configuration file: {response.status_code}")
         print(response.text)
+
+def update_defaultroute_script(subnet):
+    try:
+        # Check if the defaultroute.sh file exists
+        defaultroute_file = './scripts/defaultroute.sh'
+        if os.path.exists(defaultroute_file):
+            # Append the new subnet information to the script
+            with open(defaultroute_file, 'a') as file:
+                file.write(f'\nip route add {subnet} via 192.168.254.1\n')
+            print(f"Added route for {subnet} to {defaultroute_file}")
+        else:
+            print(f"{defaultroute_file} not found.")
+    except Exception as e:
+        print(f"Error updating defaultroute.sh: {e}")
 
 def execute_pre_docker_script():
     try:
@@ -104,6 +122,20 @@ def trigger_docker_compose():
         print("Docker Compose has been triggered successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error occurred while running docker-compose: {e}")
+
+def prompt_for_subnet():
+    while True:
+        subnet = input("Enter Clients Subnet (e.g., 10.255.x.0/24): ").strip()
+        if validate_subnet(subnet):
+            return subnet
+        else:
+            print("Invalid subnet format. Please try again.")
+
+def validate_subnet(subnet):
+    # Check if the subnet format matches 10.255.x.0/24 (basic validation)
+    import re
+    pattern = r"^10\.255\.\d{1,3}\.0/24$"
+    return bool(re.match(pattern, subnet))
 
 def prompt_docker_compose():
     # Prompt the user to confirm if they want to trigger Docker Compose
