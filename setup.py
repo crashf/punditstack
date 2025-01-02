@@ -7,6 +7,86 @@ import re
 # Change this to your domain name or IP address of the server running wg-easy
 base_url = 'http://monitorvpn.pund-it.ca:51821'
 
+
+# Functionality for the Prometheus Configuration
+def validate_ip(ip):
+    """Validate if the input is a valid IP address."""
+    pattern = r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$"
+    if re.match(pattern, ip):
+        return all(0 <= int(octet) <= 255 for octet in ip.split('.'))
+    return False
+
+def prompt_for_devices():
+    """Prompt the user for device names and IP addresses."""
+    devices = []
+    while True:
+        name = input("Enter the device name: ").strip()
+        while not name:
+            print("Device name cannot be empty.")
+            name = input("Enter the device name: ").strip()
+
+        ip = input(f"Enter the IP address for {name}: ").strip()
+        while not validate_ip(ip):
+            print("Invalid IP address format. Please try again.")
+            ip = input(f"Enter the IP address for {name}: ").strip()
+
+        devices.append({'name': name, 'ip': ip})
+
+        continue_input = input("Would you like to add another device? (y/n): ").strip().lower()
+        if continue_input not in ['y', 'yes']:
+            break
+    return devices
+
+def format_prometheus_config(devices):
+    """Format the devices into Prometheus configuration entries."""
+    config_entries = []
+    for device in devices:
+        entry = (
+            f"- job_name: '{device['name']}'\n"
+            f"    scrape_interval: 1m\n"
+            f"    metrics_path: /metrics\n"
+            f"    static_configs:\n"
+            f"    - targets: ['{device['ip']}:9182']\n"
+        )
+        config_entries.append(entry)
+    return "\n".join(config_entries)
+
+def append_to_prometheus_config(devices, file_path='./prometheus/prometheus.yml'):
+    """Append the formatted configuration entries to the Prometheus configuration file."""
+    try:
+        # Read the existing file content
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as file:
+                lines = file.readlines()
+        else:
+            lines = []
+
+        # Find the placeholder comment
+        placeholder_index = next(
+            (i for i, line in enumerate(lines) if line.strip() == "####  Added from setup"), 
+            None
+        )
+
+        # Generate the new configuration
+        new_config = format_prometheus_config(devices)
+
+        # Insert the new configuration after the placeholder
+        if placeholder_index is not None:
+            lines.insert(placeholder_index + 1, f"{new_config}\n")
+        else:
+            # If the placeholder is not found, append the new configuration to the end
+            lines.append("\n####  Added from setup\n")
+            lines.append(f"{new_config}\n")
+
+        # Write the updated content back to the file
+        with open(file_path, 'w') as file:
+            file.writelines(lines)
+
+        print(f"Devices successfully added to {file_path}")
+    except Exception as e:
+        print(f"An error occurred while updating {file_path}: {e}")
+
+
 # Make sure to update the password to the password you set for your web GUI
 def get_session_id(base_url=base_url):
     path = base_url + '/api/session'
@@ -30,9 +110,6 @@ def get_client_data(base_url=base_url, session_id=None):
 
     if response.status_code == 200:
         client_data = response.json()
-        #print(f'Number of clients: {len(client_data)}')
-        #for client in client_data:
-            #print(f'Client name: {client["name"]}, Client id: {client["id"]}')
         return client_data  # Return the client data
     else:
         print(f'Error: {response.status_code} - {response.text}')
@@ -60,6 +137,11 @@ def create_new_client(client_name, base_url=base_url, session_id=None):
                 subnet = prompt_for_subnet()
                 update_defaultroute_script(subnet)
 
+                # Ask if the user wants to add Windows devices to Prometheus
+                devices = prompt_for_windows_devices()
+                if devices:
+                    append_to_prometheus_config(devices)
+
                 if prompt_docker_compose():
                     execute_pre_docker_script()
                     trigger_docker_compose()
@@ -86,7 +168,6 @@ def download_client_config(client_id, client_name, base_url=base_url, session_id
         with open(config_file_path, "wb") as config_file:
             for chunk in response.iter_content(chunk_size=8192):
                 config_file.write(chunk)
-        #print(f"Configuration file saved as {config_file_path}")
 
         try:
             with open(config_file_path, "r") as config_file:
@@ -115,7 +196,6 @@ def update_defaultroute_script(subnet):
 
                 with open(defaultroute_file, 'w') as file:
                     file.writelines(lines)
-                #print(f"Added route for {subnet} in {defaultroute_file}")
             else:
                 print("Could not find the line '# Start the original container process' in the script.")
         else:
@@ -160,6 +240,15 @@ def validate_subnet(subnet):
             return True
     return False
 
+def prompt_for_windows_devices():
+    """Prompt the user if they want to add Windows devices to Prometheus."""
+    add_windows_devices = input("Would you like to add Windows devices to Prometheus? (y/n): ").strip().lower()
+    if add_windows_devices in ['y', 'yes']:
+        return prompt_for_devices()  # Call the existing device prompt function if they want to add devices
+    else:
+        print("No devices will be added.")
+        return []
+
 def prompt_docker_compose():
     while True:
         user_input = input("Do you want to trigger 'docker-compose up -d' to start the services? (y/n): ").strip().lower()
@@ -171,9 +260,12 @@ def prompt_docker_compose():
             print("Invalid input. Please enter 'y' or 'n'.")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Show Wireguard clients or create a new client')
-    parser.add_argument('action', metavar='ACTION', type=str, choices=['status', 'create'], help='Action to perform')
-    parser.add_argument('name', metavar='NAME', type=str, nargs='?', help='Name for new client (required for "create" action)')
+    parser = argparse.ArgumentParser(description='Manage WireGuard clients and Prometheus configuration')
+    parser.add_argument('action', metavar='ACTION', type=str, 
+                        choices=['status', 'create', 'prometheus-config'], 
+                        help='Action to perform')
+    parser.add_argument('name', metavar='NAME', type=str, nargs='?', 
+                        help='Name for new client (required for "create" action)')
     args = parser.parse_args()
 
     if args.action == 'status':
@@ -182,3 +274,6 @@ if __name__ == "__main__":
         if not args.name:
             parser.error('Name is required for "create" action')
         create_new_client(args.name)
+    elif args.action == 'prometheus-config':
+        devices = prompt_for_devices()
+        append_to_prometheus_config(devices)
