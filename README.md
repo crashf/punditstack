@@ -3,6 +3,8 @@ Pund-IT-Stack is a dockerized monitoring stack for MSRV Clients.
 
 Requirements:
 Docker Compose
+pip install requests
+
 
 Install & Getting Started:
 Clone this repository (or download zip with wget)
@@ -11,12 +13,12 @@ git clone https://github.com/crashf/punditstack.git
 cd pundit-stack
  ```
 Default stack
-To go with default full stack, just run docker compose as described above:
+To go with default full stack, just run setup.py:
  ```
-docker compose  up -d
+python3 setup.py create <clientname>
  ```
 
- After install, you must edit config files to add enpoints and install exporters (windws)
+ After install, you must edit config files to add enpoints and install exporters (windows)
 
 Windows - Prometheus 
 1. Install windows exporter on each windows device that will be managed. This can be done from Ninja "Install Windows Exporter (monitoring)" or directly from the github release: https://github.com/prometheus-community/windows_exporter/releases
