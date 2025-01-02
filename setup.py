@@ -31,9 +31,10 @@ def get_client_data(base_url=base_url, session_id=None):
     # Check if the request was successful and print client data
     if response.status_code == 200:
         client_data = response.json()
-        print(f'Number of clients: {len(client_data)}')
+        print(f'Number of clients: {len(client_data)},')
         for client in client_data:
-            print(f'Client name: {client["name"]}')
+            print(f'Client name: {client["name"]},Client id: {client["id"]}')
+            #print(f'Client id: {client["id"]}')
     else:
         print(f'Error: {response.status_code} - {response.text}')
 
@@ -41,40 +42,58 @@ def create_new_client(client_name, base_url=base_url, session_id=None):
     if not session_id:
         session_id = get_session_id(base_url)
     
-    # Make third request with session ID in Cookie header and provide a name for the new client to be created
+    # Step 1: Create the new client
     path = base_url + '/api/wireguard/client'
     headers = {'Content-Type': 'application/json', 'Cookie': f'connect.sid={session_id}'}
     data = '{"name":"'+client_name+'"}'
     response = requests.post(path, headers=headers, data=data)
 
-    # Check if the request was successful and print new client data
+    # Step 2: Check if the client was successfully created
     if response.status_code == 200:
-        new_client_data = response.json()
-        print('New client created:')
-        print(f'Client name: {new_client_data["name"]}')
-        client_id = new_client_data['id']  # Assuming the response contains an 'id' field (UUID)
-        # Call function to download the configuration file
-        download_client_config(client_id, client_name, base_url, session_id)
+        print(f"New client '{client_name}' created successfully.")
         
-        # Prompt for the Clients Subnet and update the defaultroute.sh file
-        subnet = prompt_for_subnet()
-        update_defaultroute_script(subnet)
+        # Step 3: Retrieve the client list and find the newly created client
+        path = base_url + '/api/wireguard/client'
+        headers = {'Cookie': f'connect.sid={session_id}'}
+        client_response = requests.get(path, headers=headers)
         
-        # Ask the user for confirmation before triggering Docker Compose
-        if prompt_docker_compose():
-            execute_pre_docker_script()  # Add this step to run the chmod command
-            trigger_docker_compose()
+        if client_response.status_code == 200:
+            client_data = client_response.json()
+            # Step 4: Search for the newly created client by name
+            client_id = None
+            for client in client_data:
+                if client['name'] == client_name:
+                    client_id = client['id']
+                    break
+            
+            if client_id:
+                print(f"Client ID for '{client_name}': {client_id}")
+                # Step 5: Download the configuration file using the client_id
+                download_client_config(client_id, base_url, session_id)
+                
+                # Step 6: Prompt for the Clients Subnet and update the defaultroute.sh file
+                subnet = prompt_for_subnet()
+                update_defaultroute_script(subnet)
+                
+                # Step 7: Ask the user for confirmation before triggering Docker Compose
+                if prompt_docker_compose():
+                    execute_pre_docker_script()  # Run chmod before Docker Compose
+                    trigger_docker_compose()
+                else:
+                    print("Docker Compose was not triggered.")
+            else:
+                print(f"Client '{client_name}' not found in the client list.")
         else:
-            print("Docker Compose was not triggered.")
+            print(f"Error retrieving client list: {client_response.status_code} - {client_response.text}")
     else:
-        print(f'Error: {response.status_code} - {response.text}')
+        print(f'Error creating client: {response.status_code} - {response.text}')
 
-def download_client_config(client_id, client_name, base_url=base_url, session_id=None):
+def download_client_config(client_name, base_url, session_id):
     if not session_id:
         session_id = get_session_id(base_url)
     
-    # Construct the URL to download the configuration file using client UUID
-    path = f"{base_url}/api/wireguard/client/{client_id}/configuration"
+    # Construct the URL to download the configuration file using client name
+    path = f"{base_url}/api/wireguard/client/{client_name}/configuration"
     headers = {'Cookie': f'connect.sid={session_id}'}
     
     # Request the configuration file
@@ -124,7 +143,6 @@ def update_defaultroute_script(subnet):
             print(f"{defaultroute_file} not found.")
     except Exception as e:
         print(f"Error updating defaultroute.sh: {e}")
-
 
 def execute_pre_docker_script():
     try:
