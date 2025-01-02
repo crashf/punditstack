@@ -4,13 +4,13 @@ import subprocess
 import os
 
 # Change this to your domain name or IP address of the server running wg-easy
-base_url = 'http://localhost:51821'
+base_url = 'http://monitorvpn.pund-it.ca:51821'
 
 # Make sure to update the password to the password you set for your web GUI
 def get_session_id(base_url=base_url):
     path = base_url + '/api/session'
     headers = {'Content-Type': 'application/json'}
-    data = '{"password": ""}'  # Update with the actual password
+    data = '{"password": "pun!Zlrn6006"}'  # Update with the actual password
 
     # Make initial request to obtain session ID
     response = requests.post(path, headers=headers, data=data)
@@ -96,14 +96,35 @@ def update_defaultroute_script(subnet):
         # Check if the defaultroute.sh file exists
         defaultroute_file = './scripts/defaultroute.sh'
         if os.path.exists(defaultroute_file):
-            # Append the new subnet information to the script
-            with open(defaultroute_file, 'a') as file:
-                file.write(f'\nip route add {subnet} via 192.168.254.1\n')
-            print(f"Added route for {subnet} to {defaultroute_file}")
+            # Open the file and read all the lines
+            with open(defaultroute_file, 'r') as file:
+                lines = file.readlines()
+
+            # Find the index of the line that contains '# Start the original container process'
+            insert_index = None
+            for i, line in enumerate(lines):
+                if '# Start the original container process' in line:
+                    insert_index = i
+                    break
+
+            if insert_index is not None:
+                # Create the line to be inserted
+                route_line = f'ip route add {subnet} via 192.168.254.1\n'
+                
+                # Insert the new line before the identified line
+                lines.insert(insert_index, route_line)
+                
+                # Write the updated content back to the file
+                with open(defaultroute_file, 'w') as file:
+                    file.writelines(lines)
+                print(f"Added route for {subnet} in {defaultroute_file}")
+            else:
+                print("Could not find the line '# Start the original container process' in the script.")
         else:
             print(f"{defaultroute_file} not found.")
     except Exception as e:
         print(f"Error updating defaultroute.sh: {e}")
+
 
 def execute_pre_docker_script():
     try:
