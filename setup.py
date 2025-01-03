@@ -1,6 +1,7 @@
 import requests
 import argparse
 import subprocess
+import getpass
 import os
 import re
 
@@ -144,15 +145,25 @@ def append_to_prometheus_config(devices, snmp_devices, file_path='./prometheus/p
 
 
 # Make sure to update the password to the password you set for your web GUI
-def get_session_id(base_url=base_url):
+def get_session_id(base_url):
+    """Prompt the user for the password and fetch the session ID."""
     path = base_url + '/api/session'
     headers = {'Content-Type': 'application/json'}
-    data = '{"password": "pun!Zlrn6006"}'  # Update with the actual password
 
+    # Prompt the user for the password securely
+    password = getpass.getpass("Enter your WireGuard web GUI password: ")
+
+    data = f'{{"password": "{password}"}}'
     response = requests.post(path, headers=headers, data=data)
-    session_id = response.cookies.get('connect.sid')
-    return session_id
 
+    if response.status_code == 200:
+        session_id = response.cookies.get('connect.sid')
+        print("Authentication successful.")
+        return session_id
+    else:
+        print(f"Authentication failed: {response.status_code} - {response.text}")
+        return None
+    
 def highlight_variable(variable):
     return f"\033[92m{variable}\033[0m"  # Green color for highlighting
 
@@ -323,10 +334,10 @@ def prompt_docker_compose():
 # Add an action to directly add Windows and SNMP devices
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Manage WireGuard clients and Prometheus configuration')
-    parser.add_argument('action', metavar='ACTION', type=str, 
-                        choices=['status', 'create', 'prometheus-config', 'add-devices'],  # Added 'add-devices'
+    parser.add_argument('action', metavar='ACTION', type=str,
+                        choices=['status', 'create', 'prometheus-config', 'add-devices'],
                         help='Action to perform')
-    parser.add_argument('name', metavar='NAME', type=str, nargs='?', 
+    parser.add_argument('name', metavar='NAME', type=str, nargs='?',
                         help='Name for new client (required for "create" action)')
 
     args = parser.parse_args()
@@ -339,18 +350,17 @@ if __name__ == "__main__":
         create_new_client(args.name)
     elif args.action == 'prometheus-config':
         devices = prompt_for_devices()
-        snmp_devices = prompt_for_snmp_devices()  # SNMP Devices
+        snmp_devices = prompt_for_snmp_devices()
         append_to_prometheus_config(devices, snmp_devices)
-    elif args.action == 'add-devices':  # Handle adding devices independently
+    elif args.action == 'add-devices':
         print("You can now add Windows and SNMP devices to Prometheus.")
 
         # Prompt for Windows devices
         devices = prompt_for_windows_devices()
         if devices:
-            append_to_prometheus_config(devices, [])  # Pass an empty list for SNMP
+            append_to_prometheus_config(devices, [])
 
         # Prompt for SNMP devices
         snmp_devices = prompt_for_snmp_devices()
         if snmp_devices:
-            append_to_prometheus_config([], snmp_devices)  # Pass an empty list for Windows
-
+            append_to_prometheus_config([], snmp_devices)
