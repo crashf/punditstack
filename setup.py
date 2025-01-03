@@ -15,7 +15,7 @@ def validate_ip(ip):
     pattern = r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$"
     if re.match(pattern, ip):
         return all(0 <= int(octet) <= 255 for octet in ip.split('.'))
-    return False
+    return False 
 
 def prompt_for_devices():
     """Prompt the user for device names and IP addresses."""
@@ -286,11 +286,15 @@ def execute_pre_docker_script():
 
 def trigger_docker_compose():
     try:
-        print("Triggering docker compose up -d...")
-        subprocess.run(['docker compose', 'up', '-d'], check=True)
+        print("Triggering docker-compose up -d...")
+        # Correctly separate 'docker' and 'compose'
+        subprocess.run(['docker', 'compose', 'up', '-d'], check=True)
         print("Docker Compose has been triggered successfully.")
+    except FileNotFoundError:
+        print("Error: Docker is not installed or not in the system PATH.")
     except subprocess.CalledProcessError as e:
         print(f"Error occurred while running docker compose: {e}")
+
 
 def prompt_for_subnet():
     while True:
