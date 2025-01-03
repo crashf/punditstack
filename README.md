@@ -10,7 +10,7 @@ Install & Getting Started:
 Clone this repository (or download zip with wget)
  ```
 git clone https://github.com/crashf/punditstack.git
-cd pundit-stack
+cd punditstack
  ```
 Default stack
 To go with default full stack, just run setup.py:
